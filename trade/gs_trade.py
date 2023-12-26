@@ -1,16 +1,10 @@
-
-class TradeParams():
-    def __init__(self):
-        pass
-
-    dt = ''
-    price = 0
+class TradeParams:
+    def __init__(self, dt, price):
+        self.dt = dt
+        self.price = price
 
 
-class Order():
-    def __init__(self):
-        pass
-
+class Order:
     id = None
     open_datetime = ''
     open_price = 0

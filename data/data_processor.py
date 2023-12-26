@@ -21,7 +21,7 @@ class DataProcessor(object):
             self._process_minute_k(params)
             # 推导式处理time列，int转str，截取丢弃后三位0
             df['time'] = [str(t)[:-3] for t in df['time']]
-            # 通过pd将 20231107150000 转为 2023-11-07 15:00:00
+            # 通过pd将 20231226150000 转为 2023-12-26 15:00:00
             df['time'] = pd.to_datetime(df['time'])
             # time重命名为datatime
             df.rename(columns={'time': 'datetime'}, inplace=True)
