@@ -1,5 +1,5 @@
 from data_baostock import *
-from data_processer import DataProcesser
+from data_processor import DataProcessor
 
 data_loader = BaoStockDataLoader()
 
@@ -11,6 +11,6 @@ params_15m.interval = Interval.MINUTE_15
 
 data_loader.load_history(params_15m)
 
-data_processer = DataProcesser()
-data_processer.process(params_15m)
+data_processor = DataProcessor()
+data_processor.process(params_15m)
 

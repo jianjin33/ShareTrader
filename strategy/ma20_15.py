@@ -1,10 +1,3 @@
-
-import sys
-import os
-curPath = os.path.abspath(os.path.dirname(__file__))
-rootPath = os.path.split(curPath)[0]
-sys.path.append(rootPath)
-
 from trade.gs_trade import (GSATrade,
                             TradeParams)
 
@@ -32,7 +25,7 @@ class MA20Minute15(object):
         trade_params.price = price
         self.trade.sell(trade_params)
 
-    # 不使用TA-Lib，练习手动计算ma20也比较简单
+    # 不使用TA-Lib，手动计算ma20也比较简单
     def _ma20(self, close):
         self._close.insert(0, close)
         sum = 0

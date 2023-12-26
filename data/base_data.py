@@ -15,6 +15,14 @@ class Interval(Enum):
 LOCAL_DATA_DIR = '\\Workspaces\\ShareTrader\\data\\'
 
 
+class DataParams:
+    code = ''
+    # 2023-9-11
+    start_time = ''
+    end_time = ''
+    interval: Interval = None
+
+
 class BaseDataLoader(object):
     name: str = object
 
@@ -22,7 +30,7 @@ class BaseDataLoader(object):
     获取当前股票历史数据
     """
 
-    def load_history(self, Params):
+    def load_history(self, params: DataParams):
         pass
 
     """
@@ -50,10 +58,3 @@ class BaseDataLoader(object):
     def get_data_path(stock_code):
         return LOCAL_DATA_DIR + stock_code + '_process.csv'
 
-
-class DataParams:
-    code = ''
-    # 2023-9-11
-    start_time = ''
-    end_time = ''
-    interval: Interval = None

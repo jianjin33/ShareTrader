@@ -41,7 +41,7 @@ def get_data_for_backtesting():
 def stat_equity(orders, cash):
     asset = 0
     for order in orders.values():
-        asset += open[0] * order.volumn  # 收盘价 * 持仓
+        asset += open[0] * order.volume  # 收盘价 * 持仓
     return asset + cash
 
 
@@ -100,5 +100,5 @@ if __name__ == '__main__':
     trade = GSATrade(init_cash)
     ma = MA20Minute15(trade)
     run_backtesting(ticks, ma)
-    orders = trade.get_hisotry_orders()
+    orders = trade.get_history_orders()
     stat_backtesting_result(orders)

@@ -4,7 +4,7 @@ from base_data import (BaseDataLoader as DL,
 import pandas as pd
 
 
-class DataProcesser(object):
+class DataProcessor(object):
     def _process_minute_k(self, params: DataParams):
         pass
 
