@@ -22,7 +22,7 @@ def start():
             sleep(3)  # 等待一会再尝试启动
 
 
-class ThsTrander:
+class ThsTrader:
     @staticmethod
     def buy(code: str, price: float, amount: int):
         price = str(price)
@@ -133,6 +133,6 @@ def for_test():
 
 # if __name__ == '__main__':
 #     # for_test()
-#     trader = ThsTrander()
+#     trader = ThsTrader()
 #     print(trader.buy('003030', 16.37, 100))
 #     print(trader.sell('003030', 25.55, 100))

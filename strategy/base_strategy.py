@@ -1,3 +1,3 @@
 class BaseStrategy(object):
-    def strategy(self):
+    def strategy(self, dt, close):
         pass

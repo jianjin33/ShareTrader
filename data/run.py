@@ -3,8 +3,7 @@ from data_processor import DataProcessor
 
 data_loader = BaoStockDataLoader()
 
-params_15m = DataParams()
-params_15m.code = '003030'
+params_15m = DataParams('003030')
 params_15m.start_time = '2022-12-26'
 params_15m.end_time = '2023-12-25'
 params_15m.interval = Interval.MINUTE_15

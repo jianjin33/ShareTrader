@@ -16,11 +16,13 @@ LOCAL_DATA_DIR = '\\Workspaces\\ShareTrader\\data\\'
 
 
 class DataParams:
-    code = ''
-    # 2023-9-11
+    # 2023-12-26
     start_time = ''
     end_time = ''
     interval: Interval = None
+
+    def __init__(self, code):
+        self.code = BaseDataLoader.get_stock_code(code)
 
 
 class BaseDataLoader(object):
@@ -51,10 +53,14 @@ class BaseDataLoader(object):
         return prefix
 
     @staticmethod
+    def get_stock_code(stock_code):
+        prefix = BaseDataLoader.get_stock_prefix(stock_code)
+        return '{0}.{1}'.format(prefix, stock_code)
+
+    @staticmethod
     def get_original_data_path(stock_code):
         return LOCAL_DATA_DIR + stock_code + '.csv'
 
     @staticmethod
     def get_data_path(stock_code):
         return LOCAL_DATA_DIR + stock_code + '_process.csv'
-
