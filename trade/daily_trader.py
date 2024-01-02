@@ -49,6 +49,13 @@ class DailyTrader(object):
         print(self._tick)
 
     def generate_bar(self):
+        if len(self._high) == 0:
+            self._open.insert(0, self._tick[1])
+            self._close.insert(0, self._tick[1])
+            self._high.insert(0, self._tick[1])
+            self._low.insert(0, self._tick[1])
+            self._dt.insert(0, self._tick[0])
+
         if self._tick[0].minute % 15 == 0 \
                 and self._tick[0].minute != self._last_bar_start_minute:
             # create bar

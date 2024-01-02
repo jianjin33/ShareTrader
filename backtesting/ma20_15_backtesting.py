@@ -1,9 +1,9 @@
-from matplotlib import gridspec
-from mplfinance.original_flavor import candlestick_ohlc
-from matplotlib.dates import date2num
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib import gridspec
+from matplotlib.dates import date2num
+from mplfinance.original_flavor import candlestick_ohlc
 
 from data.base_data import BaseDataLoader as DL
 from strategy.ma20_15 import MA20Minute15
@@ -15,7 +15,7 @@ plt.rcParams['axes.unicode_minus'] = False
 
 class Backtester:
     def __init__(self):
-        self.open = []
+        self.close = []
         self.equities = []
 
     # 净值计算
@@ -25,39 +25,34 @@ class Backtester:
 
         asset = 0
         for order in current_orders.values():
-            asset += self.open[0] * order.volume  # 收盘价 * 持仓
+            asset += self.close[0] * order.volume  # 收盘价 * 持仓
         equity = asset + cash
         self.equities.append(equity)
 
     def run_backtesting(self, ticks, ma: MA20Minute15):
         is_init = False
         for tick in ticks:
-            self.open.insert(0, tick[1])
+            self.close.insert(0, tick[1])
             if is_init:
                 ma.strategy(tick[0], tick[1])
                 # 统计每个周期结束时净值
                 self.stat_equity(ma.trade)
             else:
-                if len(self.open) >= 20:
+                if len(self.close) >= 20:
                     is_init = True
                     ma.strategy(tick[0], tick[1])
 
-    def stat_backtesting_result(self):
-        orders_dict = trade_instance.get_history_orders()
+    def stat_backtesting_result(self, ma: MA20Minute15):
+        orders_dict = ma.trade.get_history_orders()
 
         profit_orders = 0
         loss_orders = 0
-        pnl_dict = {}
-        pnl_result = 0
         for key in orders_dict.keys():
             pnl = orders_dict[key].pnl
-            pnl_dict[key] = pnl
-            pnl_result += pnl
             if pnl >= 0:
                 profit_orders += 1
             else:
                 loss_orders += 1
-        print('All PNL:' + str(pnl_result))
 
         # 计算胜率
         win_rate = profit_orders / len(orders_dict)
@@ -85,12 +80,15 @@ class Backtester:
 
         # ax1绘制PNL
         pnl_series = orders_df.loc[:, 'PNL']
+        total = int(pnl_series.sum())
         ax1.plot(pnl_series.index, pnl_series, color='b')
         ax1.bar(pnl_series.index, pnl_series, width=0.3, label='PNL', color=np.where(pnl_series >= 0, 'b', 'r'))
         ax1.set_title('每单PNL')
         ax1.set_ylabel('PNL')
         ax1.legend()
         ax1.grid()
+
+        fig.text(0, 1, f'合计: {total} 成功率：{win_rate}', ha='left', va='top')
 
         # ax2绘制净值曲线
         equities_series = pd.Series(self.equities)
@@ -159,4 +157,4 @@ if __name__ == '__main__':
 
     backtester = Backtester()
     backtester.run_backtesting(ticks_data, ma_strategy)
-    backtester.stat_backtesting_result()
+    backtester.stat_backtesting_result(ma_strategy)
